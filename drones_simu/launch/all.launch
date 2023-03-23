@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg   name="drones"  default="1"/>
+
+    <node name="leader" pkg="drones_simu" type="leader" clear_params="true" output="screen">
+        <param name="nbDrones" value="$(arg drones)" />
+    </node>
+
+    <!-- include the lauch file that recursively launches all follower drones -->
+    <include file="$(find drones_simu)/launch/followers.launch" if="$(eval arg('drones') > 0)">
+       <arg name="drones"  value="$(eval arg('drones'))"/>
+    </include>
+</launch>

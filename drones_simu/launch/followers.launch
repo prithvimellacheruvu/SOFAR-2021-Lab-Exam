@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg   name="drones"  default="1"/>
+    <param name="nbDrones"  value="$(arg drones)"/>
+    <arg   name="droneIndex" value="$(eval arg('drones') - 1)"/>
+
+    <!-- start node -->
+    <group ns="$(eval 'drone' + str(arg('droneIndex')))">
+       <node name="drone" pkg="drones_simu" type="drones_node" clear_params="true" output="screen">
+       </node>
+       <node name="controller" pkg="drones_simu" type="controller" clear_params="true" output="screen">
+          <param name="id" value="$(arg droneIndex)" />
+       </node>
+    </group>
+
+    <!-- recursively start new node -->
+    <include file="$(find drones_simu)/launch/followers.launch" if="$(eval arg('droneIndex') > 0)">
+       <arg name="drones" value="$(eval arg('droneIndex'))"/>
+    </include>
+
+</launch>

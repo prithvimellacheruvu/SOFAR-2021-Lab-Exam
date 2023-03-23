@@ -1,0 +1,7 @@
+# New desired relative position of the drone
+drones_msgs/RelativePos relPos
+---
+# Applied relative pos. 
+# The applied rho is bounded to a max value. Applied angle is always in 0-2pi range.
+# Service will return false if drone id is unknown.
+drones_msgs/RelativePos appliedRelPos
